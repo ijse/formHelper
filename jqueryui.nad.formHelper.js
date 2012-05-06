@@ -47,7 +47,8 @@
 			})
 			
 			// Cache default values for form reset
-			me._defaultValues = me.options.defaults;
+			me._defaultValues = me.getValues();
+			me._defaultValues = $.extend(me._defaultValues, me.options.defaults);
 			
 			// Apply default data to form fields
 			me._fill(me.options.defaults);
