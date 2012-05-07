@@ -1,5 +1,5 @@
 ( function($) {
-	
+
 	$.widget("nad.formHelper", {
 		/**
 		 * Form Helper
@@ -8,12 +8,12 @@
 		 * @version: 0.1-alpha
 		 * @date: 2012-05-05
 		 */
-		
+
 		// These options will be used as defaults
 		options: {
-			dataUrl: undefined, 	// Form fields data from url
-			action: "", 			// Form submit to url
-			defaults: {}, 			// Default value of the form's fields
+			dataUrl: undefined, // Form fields data from url
+			action: "", // Form submit to url
+			defaults: {}, // Default value of the form's fields
 			resetBtn: "input[type='reset']",
 			submitBtn: "input[type='submit']",
 			ajaxOptions: {
@@ -21,19 +21,19 @@
 				type: "post"
 			} 						// Params send when request data from remote
 		},
-		
+
 		// Private, form default values for form reset
 		_defaultValues: null,
 		_resetBtn: null,
 		_submitBtn: null,
-		
+
 		// Set up the widget
 		_create: function() {
 			var me = this;
-			
+
 			me._resetBtn = me.element.find(me.options.resetBtn);
 			me._submitBtn = me.element.find(me.options.submitBtn);
-			
+
 			// Bind event to reset button
 			$(me._resetBtn).bind("click", function(event) {
 				me.reset();
@@ -45,11 +45,10 @@
 				// Trigger submit form event
 				me._trigger("formsubmit", null, me.getValues());
 			})
-			
 			// Cache default values for form reset
 			me._defaultValues = me.getValues();
 			me._defaultValues = $.extend(me._defaultValues, me.options.defaults);
-			
+
 			// Apply default data to form fields
 			me._fill(me.options.defaults);
 
@@ -60,18 +59,18 @@
 					url: me.options.dataUrl
 				}, me.options.ajaxOptions, {
 					success: function(data, textStatus) {
-						if(typeof suc === "function") {
+						if( typeof suc === "function") {
 							suc.apply(this, arguments);
 						}
 						// Cache default values for form reset
 						me._defaultValues = $.extend(me._defaultValues, data);
 					}
-				}));	
+				}));
 			}
 		},
 		/**
 		 * Respond to changes to options
-		 * @param key 
+		 * @param key
 		 * @param value
 		 */
 		_setOption: function(key, value) {
@@ -80,7 +79,7 @@
 			switch(key) {
 				case "defaults":
 					// Update default form values
-					this._defaultValues = value; 
+					this._defaultValues = value;
 					break;
 				case "resetBtn":
 					this._resetBtn = this.element.find($(value));
@@ -90,7 +89,6 @@
 					break;
 			}
 		},
-		
 		/**
 		 * Clean up any modifications formHelper has made to the DOM
 		 */
@@ -100,7 +98,6 @@
 			this._resetBtn.unbind("click");
 			this._submitBtn.unbind("click");
 		},
-		
 		// Public methods
 		/**
 		 * Reset form fields
@@ -111,8 +108,8 @@
 		},
 		submit: function() {
 			// TODO:
-			
-		}, 
+
+		},
 		/**
 		 * Fill the form with given values or by ajax
 		 * @param values object
@@ -136,7 +133,6 @@
 		serialize: function() {
 			return $(this.element).serialize();
 		},
-		
 		/**
 		 * Get form serialize array object
 		 * @return type {name: xxx, value: xxx}
@@ -146,7 +142,7 @@
 		},
 		/**
 		 * Get field value
-		 * 
+		 *
 		 * @param names array, field name, when not given, return all values
 		 * @return object
 		 */
@@ -174,7 +170,6 @@
 				return pobj;
 			}
 		},
-		
 		// Private methods
 		/**
 		 * Fill form with remote data
@@ -187,7 +182,7 @@
 			$.ajax($.extend(ajaxParams, {
 				success: function(data, textStatus) {
 					me._fill(data);
-					if(typeof suc === "function") {
+					if( typeof suc === "function") {
 						suc.apply(this, arguments);
 					}
 					me._trigger("ajaxfill", null, data);
@@ -236,14 +231,15 @@
 								}
 							});
 						});
-					} else { // text, password, textarea, hidden, submit, reset, image
+					} else {// text, password, textarea, hidden, submit, reset, image
 						field.val(va);
 					}
 					// if
 				} // if
-			} // for
+			}// for
 			// Trigger "formfiled" event
 			this._trigger("formfilled", null, this);
 		}
 	});
 }(jQuery));
+
